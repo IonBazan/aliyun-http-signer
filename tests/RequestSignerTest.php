@@ -91,21 +91,27 @@ MESSAGE
         ];
     }
 
-    public function testRequestSignatureWithFixedNonceAndDate(): void
+    public function testRequestSignatureWithFixedNonceAndDateWithStage(): void
     {
         $requestSigner = new RequestSigner(new Key('1234', '5678'));
         $request = new Request(
             'https://example.com/v1.0/category/123/products?page=10',
             'GET',
             'php://memory',
-            ['Accept' => '*/*', 'Content-Type' => 'application/json']
+            [
+                'Accept'       => '*/*',
+                'Content-Type' => 'application/json',
+                'X-Ca-Stage'   => 'test',
+            ]
         );
         $signedRequest = $requestSigner->signRequest($request, new DateTime('2020-04-30'), '');
         $this->assertSignedRequest(
             $signedRequest,
             '',
             1588204800000,
-            'YqDp37hUo5bxAL7lg53iabau7qhMYRMCwQKklZpZuMc='
+            'VoQMES7AM9S8GpXH8xMi9kl7E5/Xb4wsdL+jhNTnO08=',
+            '',
+            'x-ca-key,x-ca-nonce,x-ca-signaturemethod,x-ca-stage,x-ca-timestamp'
         );
     }
 

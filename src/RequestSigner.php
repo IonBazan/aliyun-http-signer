@@ -17,10 +17,11 @@ class RequestSigner
     public const HEADER_X_CA_SIGNATURE_METHOD = 'X-Ca-SignatureMethod';
     public const HEADER_X_CA_SIGNATURE_HEADERS = 'X-Ca-Signature-Headers';
     public const HEADER_X_CA_TIMESTAMP = 'X-Ca-Timestamp';
-    public const HEADER_DATE = 'Date';
-    public const HEADER_CONTENT_MD5 = 'Content-MD5';
     public const HEADER_X_CA_NONCE = 'X-Ca-Nonce';
     public const HEADER_X_CA_KEY = 'X-Ca-Key';
+    public const HEADER_X_CA_STAGE = 'X-Ca-Stage';
+    public const HEADER_DATE = 'Date';
+    public const HEADER_CONTENT_MD5 = 'Content-MD5';
 
     /** @var Key */
     private $key;
@@ -33,6 +34,7 @@ class RequestSigner
         self::HEADER_X_CA_NONCE,
         self::HEADER_X_CA_SIGNATURE_METHOD,
         self::HEADER_X_CA_TIMESTAMP,
+        self::HEADER_X_CA_STAGE,
     ];
 
     public function __construct(Key $key, ?DigestInterface $digest = null)
