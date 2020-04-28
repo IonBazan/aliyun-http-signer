@@ -1,7 +1,7 @@
 {
     "name": "ion-bazan/aliyun-http-signer",
     "type": "library",
-    "description": "An implementation of the Aliyun HTTP HMAC Spec in PHP that integrates with Guzzle.",
+    "description": "PSR-7-compatible Alibaba Cloud API Gateway request signing implementation. Integrates with Guzzle ⛽️.",
     "keywords": ["Aliyun", "Alibaba", "Alibaba Cloud", "API Gateway", "Guzzle", "PSR-7", "HMAC", "Signature"],
     "homepage": "https://github.com/IonBazan/aliyun-http-signer",
     "license": "MIT",

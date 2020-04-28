@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/packagist/l/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)
 
 This library implements [Alibaba Cloud API Gateway request signature](https://www.alibabacloud.com/help/doc-detail/29475.htm) calculation for [PSR-7](https://www.php-fig.org/psr/psr-7/) compatible requests.
-It integrates with [Guzzle](https://github.com/guzzle/guzzle) by providing a simple [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware).
+It integrates with [Guzzle](https://github.com/guzzle/guzzle) by providing a simple [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware) but can be used with any PSR-7-compatible client.
 
 # Installation
 Use [Composer](https://getcomposer.org/) to install the package using:
@@ -19,7 +19,7 @@ composer require ion-bazan/aliyun-http-signer
 
 # Usage
 
-## Sign PSR-7-compatible API request 
+## Sign a PSR-7-compatible API request 
 
 ```php
 <?php
@@ -77,4 +77,5 @@ If you found a bug or security vulnerability, please [open an issue](https://git
 # Contributing
 
 Please feel free to submit Pull Requests adding new features or fixing bugs.
+
 Please note that code must follow PSR-1, PSR-2, PSR-4 and PSR-7.  
