@@ -1,0 +1,22 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "infection.log",
+        "badge": {
+            "branch": "master"
+        }
+    },
+    "mutators": {
+        "@default": true,
+        "ProtectedVisibility": {
+            "ignore": [
+                "IonBazan\\AliyunSigner\\RequestSigner::getHeadersToSign",
+                "IonBazan\\AliyunSigner\\RequestSigner::getUrlToSign"
+            ]
+        }
+    }
+}

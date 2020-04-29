@@ -22,6 +22,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
         "guzzlehttp/guzzle": "^6.0|^7.0",
+        "infection/infection": "~0.15",
         "laminas/laminas-diactoros": "^2.2",
         "php-http/client-common": "^2.0",
         "phpunit/phpunit": "^8.0|^9.0"

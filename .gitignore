@@ -8,3 +8,7 @@
 /.php_cs
 /.php_cs.cache
 /cs_fixer_tmp_*
+
+# Ignore local Infection configuration
+/infection.log
+/infection.json

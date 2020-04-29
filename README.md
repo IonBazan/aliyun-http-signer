@@ -4,6 +4,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/IonBazan/aliyun-http-signer/Tests)](https://github.com/IonBazan/aliyun-http-signer/actions)
 [![PHP version](https://img.shields.io/packagist/php-v/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)
 [![Codecov](https://img.shields.io/codecov/c/gh/IonBazan/aliyun-http-signer)](https://codecov.io/gh/IonBazan/aliyun-http-signer)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FIonBazan%2Faliyun-http-signer%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/IonBazan/aliyun-http-signer/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/IonBazan/aliyun-http-signer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/IonBazan/aliyun-http-signer/?branch=master)
 [![Downloads](https://img.shields.io/packagist/dt/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)
 [![License](https://img.shields.io/packagist/l/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)

@@ -46,7 +46,7 @@ class RequestSignerTest extends TestCase
             'GET with empty body and no query string' => [
                 new Request(
                     'https://example.com/v1.0/category/123/products',
-                    'GET',
+                    'get',
                     'php://memory',
                     ['Accept' => '*/*', 'Content-Type' => 'application/json']
                 ),
@@ -68,7 +68,7 @@ MESSAGE
             'POST with JSON body query string' => [
                 new Request(
                     'https://example.com/v1.0/category/123/products?page=10',
-                    'POST',
+                    'post',
                     $streamFactory->createStream(json_encode(['hello' => 'world'])),
                     ['Accept' => '*/*', 'Content-Type' => 'application/json']
                 ),

@@ -6,6 +6,7 @@ namespace IonBazan\AliyunSigner\Tests\Guzzle;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Promise\PromiseInterface;
 use IonBazan\AliyunSigner\Guzzle\RequestSignerMiddleware;
 use IonBazan\AliyunSigner\RequestSigner;
 use PHPUnit\Framework\TestCase;
@@ -25,6 +26,6 @@ class RequestSignerMiddlewareTest extends TestCase
             ->method('signRequest')
             ->with($request);
 
-        $stack->resolve()($request, []);
+        $this->assertInstanceOf(PromiseInterface::class, $stack->resolve()($request, []));
     }
 }
