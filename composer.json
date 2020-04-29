@@ -1,8 +1,8 @@
 {
     "name": "ion-bazan/aliyun-http-signer",
     "type": "library",
-    "description": "PSR-7-compatible Alibaba Cloud API Gateway request signing implementation. Integrates with Guzzle ⛽️.",
-    "keywords": ["Aliyun", "Alibaba", "Alibaba Cloud", "API Gateway", "Guzzle", "PSR-7", "HMAC", "Signature"],
+    "description": "PSR-7-compatible Alibaba Cloud API Gateway request signing implementation. Integrates with Guzzle ⛽️ and HttPlug \uD83D\uDC18.",
+    "keywords": ["Aliyun", "Alibaba", "Alibaba Cloud", "API Gateway", "Guzzle", "PSR-7", "HMAC", "Signature", "httplug", "http"],
     "homepage": "https://github.com/IonBazan/aliyun-http-signer",
     "license": "MIT",
     "authors": [
@@ -23,11 +23,13 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "guzzlehttp/guzzle": "^6.0|^7.0",
         "laminas/laminas-diactoros": "^2.2",
+        "php-http/client-common": "^2.0",
         "phpunit/phpunit": "^8.0|^9.0"
     },
     "suggest": {
-        "guzzlehttp/guzzle": "^6.0|^7.0",
-        "laminas/laminas-diactoros": "^2.2"
+        "guzzlehttp/guzzle": "^6.0|^7.0, to use Guzzle Middleware",
+        "laminas/laminas-diactoros": "^2.2, to build HTTP requests",
+        "php-http/client-common": "^2.0, to use HttPlug plugin"
     },
     "autoload": {
         "psr-4": {

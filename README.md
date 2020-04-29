@@ -4,11 +4,12 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/IonBazan/aliyun-http-signer/Tests)](https://github.com/IonBazan/aliyun-http-signer/actions)
 [![PHP version](https://img.shields.io/packagist/php-v/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)
 [![Codecov](https://img.shields.io/codecov/c/gh/IonBazan/aliyun-http-signer)](https://codecov.io/gh/IonBazan/aliyun-http-signer)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/IonBazan/aliyun-http-signer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/IonBazan/aliyun-http-signer/?branch=master)
 [![Downloads](https://img.shields.io/packagist/dt/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)
 [![License](https://img.shields.io/packagist/l/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)
 
 This library implements [Alibaba Cloud API Gateway request signature](https://www.alibabacloud.com/help/doc-detail/29475.htm) calculation for [PSR-7](https://www.php-fig.org/psr/psr-7/) compatible requests.
-It integrates with [Guzzle](https://github.com/guzzle/guzzle) by providing a simple [Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html#middleware) but can be used with any PSR-7-compatible client.
+It integrates with [Guzzle](https://github.com/guzzle/guzzle) and [HttPlug](https://github.com/php-http/httplug) but can be used with any PSR-7-compatible client.
 
 # Installation
 Use [Composer](https://getcomposer.org/) to install the package using:
@@ -68,6 +69,34 @@ $stack->push($middleware);
 
 $client = new Client(['handler' => $stack]);
 $response = $client->get('https://example.com/api/v1/test');
+```
+
+## Sign an API request using HttPlug plugin
+
+```php
+<?php
+
+require_once 'vendor/autoload.php';
+
+use Http\Client\Common\PluginClient;
+use Http\Discovery\HttpClientDiscovery;
+use IonBazan\AliyunSigner\Key;
+use IonBazan\AliyunSigner\RequestSigner;
+use IonBazan\AliyunSigner\HttPlug\RequestSignerPlugin;
+
+// Provide credentials
+$appId = '12345678';
+$secret = base64_encode('secret');
+
+// Create signer and plugin
+$signer = new RequestSigner(new Key($appId, $secret));
+$plugin = new RequestSignerPlugin($signer);
+$pluginClient = new PluginClient(
+    HttpClientDiscovery::find(),
+    [$plugin]
+);
+
+$pluginClient->sendRequest($request);
 ```
 
 # Bugs & issues
