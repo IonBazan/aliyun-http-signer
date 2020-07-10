@@ -21,6 +21,12 @@ composer require ion-bazan/aliyun-http-signer
 
 # Usage
 
+## Symfony integration
+
+The easiest way to integrate the package with Symfony is using [GuzzleBundleAliyunSignerPlugin](https://github.com/IonBazan/GuzzleBundleAliyunSignerPlugin) with Guzzle Bundle.
+
+To use it with HttplugBundle or any other Bundle, simply register `RequestSigner`, `Key` and `RequestSignerPlugin` as services and inject the credentials to the `Key` service.
+
 ## Sign a PSR-7-compatible API request 
 
 ```php

@@ -1,8 +1,20 @@
 {
     "name": "ion-bazan/aliyun-http-signer",
     "type": "library",
-    "description": "PSR-7-compatible Alibaba Cloud API Gateway request signing implementation. Integrates with Guzzle ⛽️ and HttPlug \uD83D\uDC18.",
-    "keywords": ["Aliyun", "Alibaba", "Alibaba Cloud", "API Gateway", "Guzzle", "PSR-7", "HMAC", "Signature", "httplug", "http"],
+    "description": "PSR-7-compatible Alibaba Cloud API Gateway request signing implementation. Integrates with Guzzle \u26fd\ufe0f and HttPlug \ud83d\udc18.",
+    "keywords": [
+        "Aliyun",
+        "Alibaba",
+        "Alibaba Cloud",
+        "API Gateway",
+        "Guzzle",
+        "PSR-7",
+        "HMAC",
+        "Signature",
+        "httplug",
+        "http",
+        "middleware"
+    ],
     "homepage": "https://github.com/IonBazan/aliyun-http-signer",
     "license": "MIT",
     "authors": [
@@ -11,26 +23,27 @@
             "email": "ion.bazan@gmail.com"
         }
     ],
-    "support": {
-        "issues": "https://github.com/IonBazan/aliyun-http-signer/issues"
-    },
     "require": {
         "php": ">=7.2",
         "psr/http-message": "^1.0",
-        "ramsey/uuid": "^3.0|^4.0"
+        "ramsey/uuid": "^3.0 || ^4.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
-        "guzzlehttp/guzzle": "^6.0|^7.0",
+        "guzzlehttp/guzzle": "^6.0 || ^7.0",
         "infection/infection": "~0.15",
         "laminas/laminas-diactoros": "^2.2",
         "php-http/client-common": "^2.0",
-        "phpunit/phpunit": "^8.0|^9.0"
+        "phpunit/phpunit": "^8.0 || ^9.0"
     },
     "suggest": {
         "guzzlehttp/guzzle": "^6.0|^7.0, to use Guzzle Middleware",
+        "ion-bazan/guzzle-bundle-aliyun-signer-plugin": "to integrate with Guzzle Bundle",
         "laminas/laminas-diactoros": "^2.2, to build HTTP requests",
         "php-http/client-common": "^2.0, to use HttPlug plugin"
+    },
+    "config": {
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +55,7 @@
             "IonBazan\\AliyunSigner\\Tests\\": "tests/"
         }
     },
-    "config": {
-        "sort-packages": true
+    "support": {
+        "issues": "https://github.com/IonBazan/aliyun-http-signer/issues"
     }
 }
