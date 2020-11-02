@@ -3,6 +3,7 @@
 # Ignore local PHPUnit configuration
 /phpunit.xml
 /coverage.xml
+/.phpunit.result.cache
 
 # Ignore PHP-CS-Fixer files
 /.php_cs
