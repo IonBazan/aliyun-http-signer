@@ -43,7 +43,10 @@
         "php-http/client-common": "^2.0, to use HttPlug plugin"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
     },
     "autoload": {
         "psr-4": {
