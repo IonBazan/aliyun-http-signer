@@ -1,7 +1,7 @@
 # Alibaba Cloud API Gateway HTTP Request Signer for PHP
 
 [![Latest version](https://img.shields.io/packagist/v/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/IonBazan/aliyun-http-signer/Tests)](https://github.com/IonBazan/aliyun-http-signer/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/IonBazan/aliyun-http-signer/php.yml?branch=main)](https://github.com/IonBazan/aliyun-http-signer/actions)
 [![PHP version](https://img.shields.io/packagist/php-v/ion-bazan/aliyun-http-signer.svg)](https://packagist.org/packages/ion-bazan/aliyun-http-signer)
 [![Codecov](https://img.shields.io/codecov/c/gh/IonBazan/aliyun-http-signer)](https://codecov.io/gh/IonBazan/aliyun-http-signer)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FIonBazan%2Faliyun-http-signer%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/IonBazan/aliyun-http-signer/master)
