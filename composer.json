@@ -24,22 +24,23 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": "^8.1",
         "psr/http-message": "^1.0 || ^2.0",
-        "ramsey/uuid": "^3.0 || ^4.0 || ^5.0"
+        "ramsey/uuid": "^3.0 || ^4.0 || ^5.0",
+        "symfony/polyfill-php82": "^1.22"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.0",
+        "friendsofphp/php-cs-fixer": "^3.64",
         "guzzlehttp/guzzle": "^6.0 || ^7.0",
         "infection/infection": "~0.15",
         "laminas/laminas-diactoros": "^2.2 || ^3.0",
         "php-http/client-common": "^2.0",
-        "phpunit/phpunit": "^8 || ^9 || ^10 || ^11"
+        "phpunit/phpunit": "^10.5 || ^11"
     },
     "suggest": {
         "guzzlehttp/guzzle": "^6.0|^7.0, to use Guzzle Middleware",
         "ion-bazan/guzzle-bundle-aliyun-signer-plugin": "to integrate with Guzzle Bundle",
-        "laminas/laminas-diactoros": "^2.2, to build HTTP requests",
+        "laminas/laminas-diactoros": "^2.2 || ^3.0, to build HTTP requests",
         "php-http/client-common": "^2.0, to use HttPlug plugin"
     },
     "config": {

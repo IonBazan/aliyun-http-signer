@@ -10,14 +10,13 @@ use IonBazan\AliyunSigner\Key;
 use IonBazan\AliyunSigner\RequestSigner;
 use Laminas\Diactoros\Request;
 use Laminas\Diactoros\StreamFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 
 class RequestSignerTest extends TestCase
 {
-    /**
-     * @dataProvider requestDataProvider
-     */
+    #[DataProvider('requestDataProvider')]
     public function testRequestMessageSignature(RequestInterface $request, string $nonce, string $expectedMessage, string $bodyMd5 = ''): void
     {
         $digest = $this->createMock(DigestInterface::class);
@@ -52,18 +51,17 @@ class RequestSignerTest extends TestCase
                 ),
                 'test-nonce',
                 <<<MESSAGE
-GET
-*/*
+                    GET
+                    */*
 
-application/json
-1588032000000
-x-ca-key:1234
-x-ca-nonce:test-nonce
-x-ca-signaturemethod:HmacSHA256
-x-ca-timestamp:1588032000000
-/v1.0/category/123/products
-MESSAGE
-                ,
+                    application/json
+                    1588032000000
+                    x-ca-key:1234
+                    x-ca-nonce:test-nonce
+                    x-ca-signaturemethod:HmacSHA256
+                    x-ca-timestamp:1588032000000
+                    /v1.0/category/123/products
+                    MESSAGE,
             ],
             'POST with JSON body query string' => [
                 new Request(
@@ -74,18 +72,17 @@ MESSAGE
                 ),
                 'test-nonce',
                 <<<MESSAGE
-POST
-*/*
-+8JLzHoXlHWPwTJ/z+va9g==
-application/json
-1588032000000
-x-ca-key:1234
-x-ca-nonce:test-nonce
-x-ca-signaturemethod:HmacSHA256
-x-ca-timestamp:1588032000000
-/v1.0/category/123/products?page=10
-MESSAGE
-                ,
+                    POST
+                    */*
+                    +8JLzHoXlHWPwTJ/z+va9g==
+                    application/json
+                    1588032000000
+                    x-ca-key:1234
+                    x-ca-nonce:test-nonce
+                    x-ca-signaturemethod:HmacSHA256
+                    x-ca-timestamp:1588032000000
+                    /v1.0/category/123/products?page=10
+                    MESSAGE,
                 '+8JLzHoXlHWPwTJ/z+va9g==',
             ],
         ];
@@ -171,7 +168,7 @@ MESSAGE
         int $timestamp,
         string $signature,
         string $contentMd5 = '',
-        string $signatureHeaders = 'x-ca-key,x-ca-nonce,x-ca-signaturemethod,x-ca-timestamp'
+        string $signatureHeaders = 'x-ca-key,x-ca-nonce,x-ca-signaturemethod,x-ca-timestamp',
     ): void {
         $this->assertSame($signature, $request->getHeaderLine('X-Ca-Signature'));
         $this->assertTrue($request->hasHeader('X-Ca-Nonce'));

@@ -9,16 +9,12 @@ jobs:
       matrix:
         dependencies: [highest]
         php-versions:
-          - '7.2'
-          - '7.3'
-          - '7.4'
-          - '8.0'
           - '8.1'
           - '8.2'
           - '8.3'
           - '8.4'
         include:
-          - php-versions: '7.2'
+          - php-versions: '8.1'
             dependencies: 'lowest'
           - php-versions: '8.5'
             dependencies: 'highest'
@@ -41,6 +37,8 @@ jobs:
         run: vendor/bin/phpunit
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Run mutation tests
         if: ${{ matrix.php-versions == 8.4 }}
         env:

@@ -12,7 +12,6 @@ use Psr\Http\Message\RequestInterface;
 use Ramsey\Uuid\Uuid;
 
 use function sprintf;
-use function strlen;
 
 class RequestSigner
 {
@@ -26,13 +25,7 @@ class RequestSigner
     public const HEADER_DATE = 'Date';
     public const HEADER_CONTENT_MD5 = 'Content-MD5';
 
-    /** @var Key */
-    private $key;
-
-    /** @var Digest */
-    private $digest;
-
-    private $signatureHeaders = [
+    private array $signatureHeaders = [
         self::HEADER_X_CA_KEY,
         self::HEADER_X_CA_NONCE,
         self::HEADER_X_CA_SIGNATURE_METHOD,
@@ -40,25 +33,23 @@ class RequestSigner
         self::HEADER_X_CA_STAGE,
     ];
 
-    public function __construct(Key $key, ?DigestInterface $digest = null)
+    public function __construct(private readonly Key $key, private readonly DigestInterface $digest = new Digest())
     {
-        $this->key = $key;
-        $this->digest = $digest ?? new Digest();
     }
 
     public function signRequest(RequestInterface $request, ?DateTimeInterface $date = null, ?string $nonce = null): RequestInterface
     {
-        $nonce = $nonce ?? Uuid::uuid4()->toString();
+        $nonce ??= Uuid::uuid4()->toString();
 
         $timestamp = ($date ?? new DateTime())->format('Uv');
         $body = $request->getBody()->getContents();
-        $contentMd5 = strlen($body) ? base64_encode(md5($body, true)) : '';
+        $contentMd5 = $body !== '' ? base64_encode(md5($body, true)) : '';
 
         $request = $request->withHeader(self::HEADER_DATE, $timestamp)
             ->withHeader(self::HEADER_CONTENT_MD5, $contentMd5)
             ->withHeader(self::HEADER_X_CA_SIGNATURE_METHOD, 'HmacSHA256')
             ->withHeader(self::HEADER_X_CA_TIMESTAMP, $timestamp)
-            ->withHeader(self::HEADER_X_CA_KEY, $this->key->getId())
+            ->withHeader(self::HEADER_X_CA_KEY, $this->key->id)
             ->withHeader(self::HEADER_X_CA_NONCE, $nonce);
 
         $headers = $this->getHeadersToSign($request);
@@ -73,7 +64,7 @@ class RequestSigner
             $this->getUrlToSign($request),
         ]);
 
-        $signature = $this->digest->sign($textToSign, $this->key->getSecret());
+        $signature = $this->digest->sign($textToSign, $this->key->secret);
 
         return $request->withHeader(self::HEADER_X_CA_SIGNATURE, $signature)
             ->withHeader(self::HEADER_X_CA_SIGNATURE_HEADERS, implode(',', array_keys($headers)));
@@ -96,7 +87,7 @@ class RequestSigner
     {
         $query = urldecode($request->getUri()->getQuery());
 
-        return $request->getUri()->getPath().(strlen($query) ? '?'.$query : '');
+        return $request->getUri()->getPath().($query !== '' ? '?'.$query : '');
     }
 
     protected function getHeadersToSign(RequestInterface $request): array

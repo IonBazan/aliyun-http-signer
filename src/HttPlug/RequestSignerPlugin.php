@@ -11,12 +11,8 @@ use Psr\Http\Message\RequestInterface;
 
 class RequestSignerPlugin implements Plugin
 {
-    /** @var RequestSigner */
-    protected $requestSigner;
-
-    public function __construct(RequestSigner $requestSigner)
+    public function __construct(protected readonly RequestSigner $requestSigner)
     {
-        $this->requestSigner = $requestSigner;
     }
 
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
