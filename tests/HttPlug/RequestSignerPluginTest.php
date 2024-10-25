@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace IonBazan\AliyunSigner\Tests\HttPlug;
 
 use Http\Client\Promise\HttpFulfilledPromise;

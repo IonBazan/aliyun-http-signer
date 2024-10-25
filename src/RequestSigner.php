@@ -11,6 +11,9 @@ use IonBazan\AliyunSigner\Digest\DigestInterface;
 use Psr\Http\Message\RequestInterface;
 use Ramsey\Uuid\Uuid;
 
+use function sprintf;
+use function strlen;
+
 class RequestSigner
 {
     public const HEADER_X_CA_SIGNATURE = 'X-Ca-Signature';
@@ -49,7 +52,7 @@ class RequestSigner
 
         $timestamp = ($date ?? new DateTime())->format('Uv');
         $body = $request->getBody()->getContents();
-        $contentMd5 = \strlen($body) ? base64_encode(md5($body, true)) : '';
+        $contentMd5 = strlen($body) ? base64_encode(md5($body, true)) : '';
 
         $request = $request->withHeader(self::HEADER_DATE, $timestamp)
             ->withHeader(self::HEADER_CONTENT_MD5, $contentMd5)
@@ -93,7 +96,7 @@ class RequestSigner
     {
         $query = urldecode($request->getUri()->getQuery());
 
-        return $request->getUri()->getPath().(\strlen($query) ? '?'.$query : '');
+        return $request->getUri()->getPath().(strlen($query) ? '?'.$query : '');
     }
 
     protected function getHeadersToSign(RequestInterface $request): array

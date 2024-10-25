@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace IonBazan\AliyunSigner\HttPlug;
 
 use Http\Client\Common\Plugin;

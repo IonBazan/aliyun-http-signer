@@ -38,7 +38,7 @@ class RequestSignerTest extends TestCase
         );
     }
 
-    public function requestDataProvider(): array
+    public static function requestDataProvider(): array
     {
         $streamFactory = new StreamFactory();
 
@@ -99,9 +99,9 @@ MESSAGE
             'GET',
             'php://memory',
             [
-                'Accept'       => '*/*',
+                'Accept' => '*/*',
                 'Content-Type' => 'application/json',
-                'X-Ca-Stage'   => 'test',
+                'X-Ca-Stage' => 'test',
             ]
         );
         $signedRequest = $requestSigner->signRequest($request, new DateTime('2020-04-30'), '');
