@@ -16,7 +16,7 @@ use function sprintf;
 class RequestSigner
 {
     public const HEADER_X_CA_SIGNATURE = 'X-Ca-Signature';
-    public const HEADER_X_CA_SIGNATURE_METHOD = 'X-Ca-SignatureMethod';
+    public const HEADER_X_CA_SIGNATURE_METHOD = 'X-Ca-Signature-Method';
     public const HEADER_X_CA_SIGNATURE_HEADERS = 'X-Ca-Signature-Headers';
     public const HEADER_X_CA_TIMESTAMP = 'X-Ca-Timestamp';
     public const HEADER_X_CA_NONCE = 'X-Ca-Nonce';
@@ -41,11 +41,16 @@ class RequestSigner
     {
         $nonce ??= Uuid::uuid4()->toString();
 
-        $timestamp = ($date ?? new DateTime())->format('Uv');
+	$datetime = $date ?? new DateTime();
+        $timestamp = $datetime->format('Uv');
+
+	$timeOffset = $datetime->format('P');
+	$timeString = $datetime->format('D, d M Y H:i:s') . ' GMT' . $timeOffset;
+
         $body = $request->getBody()->getContents();
         $contentMd5 = $body !== '' ? base64_encode(md5($body, true)) : '';
 
-        $request = $request->withHeader(self::HEADER_DATE, $timestamp)
+        $request = $request->withHeader(self::HEADER_DATE, $timeString)
             ->withHeader(self::HEADER_CONTENT_MD5, $contentMd5)
             ->withHeader(self::HEADER_X_CA_SIGNATURE_METHOD, 'HmacSHA256')
             ->withHeader(self::HEADER_X_CA_TIMESTAMP, $timestamp)
@@ -59,7 +64,7 @@ class RequestSigner
             $request->getHeaderLine('accept'),
             $contentMd5,
             $request->getHeaderLine('content-type'),
-            $timestamp,
+            $timeString,
             implode("\n", $headers),
             $this->getUrlToSign($request),
         ]);
