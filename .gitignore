@@ -15,3 +15,4 @@
 # Ignore local Infection configuration
 /infection.log
 /infection.json
+/.phpunit.cache
