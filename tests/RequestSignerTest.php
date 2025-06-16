@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace IonBazan\AliyunSigner\Tests;
 
 use DateTime;
+use DateTimeZone;
 use IonBazan\AliyunSigner\Digest\DigestInterface;
 use IonBazan\AliyunSigner\Key;
 use IonBazan\AliyunSigner\RequestSigner;
@@ -55,10 +56,10 @@ class RequestSignerTest extends TestCase
                     */*
 
                     application/json
-                    1588032000000
+                    Tue, 28 Apr 2020 00:00:00 GMT
                     x-ca-key:1234
                     x-ca-nonce:test-nonce
-                    x-ca-signaturemethod:HmacSHA256
+                    x-ca-signature-method:HmacSHA256
                     x-ca-timestamp:1588032000000
                     /v1.0/category/123/products
                     MESSAGE,
@@ -76,10 +77,10 @@ class RequestSignerTest extends TestCase
                     */*
                     +8JLzHoXlHWPwTJ/z+va9g==
                     application/json
-                    1588032000000
+                    Tue, 28 Apr 2020 00:00:00 GMT
                     x-ca-key:1234
                     x-ca-nonce:test-nonce
-                    x-ca-signaturemethod:HmacSHA256
+                    x-ca-signature-method:HmacSHA256
                     x-ca-timestamp:1588032000000
                     /v1.0/category/123/products?page=10
                     MESSAGE,
@@ -106,9 +107,9 @@ class RequestSignerTest extends TestCase
             $signedRequest,
             '',
             1588204800000,
-            'VoQMES7AM9S8GpXH8xMi9kl7E5/Xb4wsdL+jhNTnO08=',
+            'yIHfw2kU986NsOD+TynOqwkvPT6IWgMobUJ4jgPGkiw=',
             '',
-            'x-ca-key,x-ca-nonce,x-ca-signaturemethod,x-ca-stage,x-ca-timestamp'
+            'x-ca-key,x-ca-nonce,x-ca-signature-method,x-ca-stage,x-ca-timestamp'
         );
     }
 
@@ -128,7 +129,7 @@ class RequestSignerTest extends TestCase
             $signedRequest,
             '',
             1588204800000,
-            'ljGjut4dwYPHfsHjlUBB0aCphG0l2Ew6I0hEPDDT6/w=',
+            'UQxRfgzHaPI9u531wJwUcujzftv9KG73L8knurpkT3E=',
             '',
             'content-type'
         );
@@ -151,7 +152,6 @@ class RequestSignerTest extends TestCase
             $signedRequest1,
             $signedRequest2,
             [
-                'Date',
                 'X-Ca-Signature',
                 'X-Ca-Nonce',
                 'X-Ca-Timestamp',
@@ -168,18 +168,31 @@ class RequestSignerTest extends TestCase
         int $timestamp,
         string $signature,
         string $contentMd5 = '',
-        string $signatureHeaders = 'x-ca-key,x-ca-nonce,x-ca-signaturemethod,x-ca-timestamp',
+        string $signatureHeaders = 'x-ca-key,x-ca-nonce,x-ca-signature-method,x-ca-timestamp',
     ): void {
         $this->assertSame($signature, $request->getHeaderLine('X-Ca-Signature'));
         $this->assertTrue($request->hasHeader('X-Ca-Nonce'));
         $this->assertSame($nonce, $request->getHeaderLine('X-Ca-Nonce'));
         $this->assertSame('1234', $request->getHeaderLine('X-Ca-Key'));
         $this->assertSame((string) $timestamp, $request->getHeaderLine('X-Ca-Timestamp'));
-        $this->assertSame((string) $timestamp, $request->getHeaderLine('Date'));
-        $this->assertSame('HmacSHA256', $request->getHeaderLine('X-Ca-SignatureMethod'));
+        $this->assertSame((new DateTime('@'. ($timestamp/1000)))->format(DATE_RFC7231), $request->getHeaderLine('Date'));
+        $this->assertSame('HmacSHA256', $request->getHeaderLine('X-Ca-Signature-Method'));
         $this->assertTrue($request->hasHeader('Content-MD5'));
         $this->assertSame($contentMd5, $request->getHeaderLine('Content-MD5'));
         $this->assertSame($signatureHeaders, $request->getHeaderLine('X-Ca-Signature-Headers'));
+    }
+
+    public function testDateIsPresentedInUtc(): void
+    {
+        $requestSigner = new RequestSigner(new Key('1234', '5678'));
+        $request = new Request(
+            'https://example.com/v1.0/category/123/products?page=10',
+            'GET',
+            'php://memory',
+            ['Accept' => '*/*', 'Content-Type' => 'application/json']
+        );
+        $signedRequest = $requestSigner->signRequest($request, new DateTime('2020-04-30 12:00:00', new DateTimeZone('Asia/Singapore')));
+        $this->assertSame('Thu, 30 Apr 2020 04:00:00 GMT', $signedRequest->getHeaderLine('Date'));
     }
 
     protected function assertHeadersVary(RequestInterface $request1, RequestInterface $request2, array $headers): void

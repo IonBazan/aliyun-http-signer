@@ -6,6 +6,7 @@ namespace IonBazan\AliyunSigner;
 
 use DateTime;
 use DateTimeInterface;
+use DateTimeZone;
 use IonBazan\AliyunSigner\Digest\Digest;
 use IonBazan\AliyunSigner\Digest\DigestInterface;
 use Psr\Http\Message\RequestInterface;
@@ -16,7 +17,7 @@ use function sprintf;
 class RequestSigner
 {
     public const HEADER_X_CA_SIGNATURE = 'X-Ca-Signature';
-    public const HEADER_X_CA_SIGNATURE_METHOD = 'X-Ca-SignatureMethod';
+    public const HEADER_X_CA_SIGNATURE_METHOD = 'X-Ca-Signature-Method';
     public const HEADER_X_CA_SIGNATURE_HEADERS = 'X-Ca-Signature-Headers';
     public const HEADER_X_CA_TIMESTAMP = 'X-Ca-Timestamp';
     public const HEADER_X_CA_NONCE = 'X-Ca-Nonce';
@@ -41,14 +42,16 @@ class RequestSigner
     {
         $nonce ??= Uuid::uuid4()->toString();
 
-        $timestamp = ($date ?? new DateTime())->format('Uv');
+        $date = DateTime::createFromInterface($date ?? new DateTime())->setTimezone(new DateTimeZone('UTC'));
+        $timeString = $date->format(DATE_RFC7231);
+
         $body = $request->getBody()->getContents();
         $contentMd5 = $body !== '' ? base64_encode(md5($body, true)) : '';
 
-        $request = $request->withHeader(self::HEADER_DATE, $timestamp)
+        $request = $request->withHeader(self::HEADER_DATE, $timeString)
             ->withHeader(self::HEADER_CONTENT_MD5, $contentMd5)
             ->withHeader(self::HEADER_X_CA_SIGNATURE_METHOD, 'HmacSHA256')
-            ->withHeader(self::HEADER_X_CA_TIMESTAMP, $timestamp)
+            ->withHeader(self::HEADER_X_CA_TIMESTAMP, $date->format('Uv'))
             ->withHeader(self::HEADER_X_CA_KEY, $this->key->id)
             ->withHeader(self::HEADER_X_CA_NONCE, $nonce);
 
@@ -59,7 +62,7 @@ class RequestSigner
             $request->getHeaderLine('accept'),
             $contentMd5,
             $request->getHeaderLine('content-type'),
-            $timestamp,
+            $timeString,
             implode("\n", $headers),
             $this->getUrlToSign($request),
         ]);
