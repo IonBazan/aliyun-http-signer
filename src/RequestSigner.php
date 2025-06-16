@@ -7,8 +7,8 @@ namespace IonBazan\AliyunSigner;
 use DateTime;
 use DateTimeInterface;
 use DateTimeZone;
-use IonBazan\AliyunSigner\Digest\Digest;
 use IonBazan\AliyunSigner\Digest\DigestInterface;
+use IonBazan\AliyunSigner\Digest\HmacSHA256Digest;
 use Psr\Http\Message\RequestInterface;
 use Ramsey\Uuid\Uuid;
 
@@ -34,7 +34,7 @@ class RequestSigner
         self::HEADER_X_CA_STAGE,
     ];
 
-    public function __construct(private readonly Key $key, private readonly DigestInterface $digest = new Digest())
+    public function __construct(private readonly Key $key, private readonly DigestInterface $digest = new HmacSHA256Digest())
     {
     }
 
@@ -50,7 +50,7 @@ class RequestSigner
 
         $request = $request->withHeader(self::HEADER_DATE, $timeString)
             ->withHeader(self::HEADER_CONTENT_MD5, $contentMd5)
-            ->withHeader(self::HEADER_X_CA_SIGNATURE_METHOD, 'HmacSHA256')
+            ->withHeader(self::HEADER_X_CA_SIGNATURE_METHOD, $this->digest->getMethod())
             ->withHeader(self::HEADER_X_CA_TIMESTAMP, $date->format('Uv'))
             ->withHeader(self::HEADER_X_CA_KEY, $this->key->id)
             ->withHeader(self::HEADER_X_CA_NONCE, $nonce);

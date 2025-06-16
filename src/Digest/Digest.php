@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace IonBazan\AliyunSigner\Digest;
 
-class Digest implements DigestInterface
+/**
+ * @deprecated Use HmacSHA256Digest instead.
+ */
+class Digest extends HmacSHA256Digest
 {
-    public function sign(string $message, string $secret): string
-    {
-        return base64_encode(hash_hmac('sha256', $message, $secret, true));
-    }
 }

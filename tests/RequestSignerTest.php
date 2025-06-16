@@ -26,6 +26,8 @@ class RequestSignerTest extends TestCase
             ->with($expectedMessage, '5678')
             ->willReturn('dummy-signature');
 
+        $digest->expects($this->once())->method('getMethod')->willReturn('HmacSHA256');
+
         $requestSigner = new RequestSigner(new Key('1234', '5678'), $digest);
         $signedRequest = $requestSigner->signRequest($request, new DateTime('2020-04-28'), $nonce);
 
